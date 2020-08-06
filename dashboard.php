@@ -1,235 +1,62 @@
-<?php
-// Include config file
-require_once "conn.php";
+<?php include'header.php';
+require_once 'conn.php';
 
-// Define variables and initialize with empty values
-$name = $address = $salary = "";
-$name_err = $address_err = $salary_err = "";
-
-// Processing form data when form is submitted
-if($_SERVER["REQUEST_METHOD"] == "POST"){
-    // Validate name
-    $input_name = trim($_POST["name"]);
-    if(empty($input_name)){
-        $name_err = "Please enter a name.";
-    } elseif(!filter_var($input_name, FILTER_VALIDATE_REGEXP, array("options"=>array("regexp"=>"/^[a-zA-Z\s]+$/")))){
-        $name_err = "Please enter a valid name.";
-    } else{
-        $name = $input_name;
-    }
-
-    // Validate address
-    $input_address = trim($_POST["address"]);
-    if(empty($input_address)){
-        $address_err = "Please enter an address.";
-    } else{
-        $address = $input_address;
-    }
-
-    // Validate salary
-    $input_salary = trim($_POST["salary"]);
-    if(empty($input_salary)){
-        $salary_err = "Please enter the salary amount.";
-    } elseif(!ctype_digit($input_salary)){
-        $salary_err = "Please enter a positive integer value.";
-    } else{
-        $salary = $input_salary;
-    }
-
-    // Check input errors before inserting in database
-    if(empty($name_err) && empty($address_err) && empty($salary_err)){
-        // Prepare an insert statement
-        $sql = "INSERT INTO employees (name, address, salary) VALUES (?, ?, ?)";
-
-        if($stmt = $mysqli->prepare($sql)){
-            // Bind variables to the prepared statement as parameters
-            $stmt->bind_param("sss", $param_name, $param_address, $param_salary);
-
-            // Set parameters
-            $param_name = $name;
-            $param_address = $address;
-            $param_salary = $salary;
-
-            // Attempt to execute the prepared statement
-            if($stmt->execute()){
-                // Records created successfully. Redirect to landing page
-                header("location: index.php");
-                exit();
-            } else{
-                echo "Something went wrong. Please try again later.";
-            }
-        }
-
-        // Close statement
-        $stmt->close();
-    }
-
-    // Close connection
-    $mysqli->close();
-}
 ?>
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Create Record</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.css">
-    <style type="text/css">
-        .wrapper{
-            width: 500px;
-            margin: 0 auto;
-        }
-    </style>
-</head>
-<body>
-<div class="wrapper">
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="page-header">
-                    <h2>Create Record</h2>
-                </div>
-                <p>Please fill this form and submit to add employee record to the database.</p>
-                <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
-                    <div class="form-group <?php echo (!empty($name_err)) ? 'has-error' : ''; ?>">
-                        <label>Name</label>
-                        <input type="text" name="name" class="form-control" value="<?php echo $name; ?>">
-                        <span class="help-block"><?php echo $name_err;?></span>
-                    </div>
-                    <div class="form-group <?php echo (!empty($address_err)) ? 'has-error' : ''; ?>">
-                        <label>Address</label>
-                        <textarea name="address" class="form-control"><?php echo $address; ?></textarea>
-                        <span class="help-block"><?php echo $address_err;?></span>
-                    </div>
-                    <div class="form-group <?php echo (!empty($salary_err)) ? 'has-error' : ''; ?>">
-                        <label>Salary</label>
-                        <input type="text" name="salary" class="form-control" value="<?php echo $salary; ?>">
-                        <span class="help-block"><?php echo $salary_err;?></span>
-                    </div>
-                    <input type="submit" class="btn btn-primary" value="Submit">
-                    <a href="index.php" class="btn btn-default">Cancel</a>
-                </form>
-            </div>
-        </div>
+<div class="inside-banner">
+    <div class="container">
+        <span class="pull-right"><a href="index.php">Home</a> / Properties</span>
+        <h2>Properties</h2>
     </div>
 </div>
-</body>
-</html><?php
-// Include config file
-require_once "config.php";
+<div class="container">
 
-// Define variables and initialize with empty values
-$name = $address = $salary = "";
-$name_err = $address_err = $salary_err = "";
+    <div class="row">
+        <h3 style="text-align: center">All our Featured Property</h3>
+        <?php
+        $sql = "SELECT * FROM property order by category";
+        $result = mysqli_query($conn, $sql);
+        $counter =0;
+            foreach ($result as $row){
+            $property_id = $row['property_id'];
+            $property_image = $row['property_image'];
+            $property_title = $row['property_title'];
+            $property_desc = $row['property_desc'];
+            $category = $row['category'];
+            $price = $row['price'];
 
-// Processing form data when form is submitted
-if($_SERVER["REQUEST_METHOD"] == "POST"){
-    // Validate name
-    $input_name = trim($_POST["name"]);
-    if(empty($input_name)){
-        $name_err = "Please enter a name.";
-    } elseif(!filter_var($input_name, FILTER_VALIDATE_REGEXP, array("options"=>array("regexp"=>"/^[a-zA-Z\s]+$/")))){
-        $name_err = "Please enter a valid name.";
-    } else{
-        $name = $input_name;
-    }
+                echo ($counter % 3==0) ? '<div class="row">':null;
+            ?>
 
-    // Validate address
-    $input_address = trim($_POST["address"]);
-    if(empty($input_address)){
-        $address_err = "Please enter an address.";
-    } else{
-        $address = $input_address;
-    }
+            <div class="col-lg-4 col-sm-8 col-xm-12">
+                <div class="card">
+                    <img class="card-img-top" src="images/<?php echo $property_image;?>"  alt="Card image" style="width:100%">
+                    <div class="card-body">
+                        <h4 class="card-title"><?php echo $property_title;?></h4>
+                        <p class="card-text"><?php echo $property_desc;?>
+                        <p class="card-text">For&nbsp<?php echo $category;?>
+                        <p class="price">Price:&nbsp <?php echo $price;?></p>
+                       <?php  echo "<a href='edit.php?property_id=$property_id' class='btn btn-success' style='width: auto'>update</a>";?>
+                       <?php  echo "<a href='delete.php?property_id=$property_id' class='btn btn-success' style='width: auto'>Delete</a>";?>
 
-    // Validate salary
-    $input_salary = trim($_POST["salary"]);
-    if(empty($input_salary)){
-        $salary_err = "Please enter the salary amount.";
-    } elseif(!ctype_digit($input_salary)){
-        $salary_err = "Please enter a positive integer value.";
-    } else{
-        $salary = $input_salary;
-    }
 
-    // Check input errors before inserting in database
-    if(empty($name_err) && empty($address_err) && empty($salary_err)){
-        // Prepare an insert statement
-        $sql = "INSERT INTO employees (name, address, salary) VALUES (?, ?, ?)";
 
-        if($stmt = $mysqli->prepare($sql)){
-            // Bind variables to the prepared statement as parameters
-            $stmt->bind_param("sss", $param_name, $param_address, $param_salary);
-
-            // Set parameters
-            $param_name = $name;
-            $param_address = $address;
-            $param_salary = $salary;
-
-            // Attempt to execute the prepared statement
-            if($stmt->execute()){
-                // Records created successfully. Redirect to landing page
-                header("location: index.php");
-                exit();
-            } else{
-                echo "Something went wrong. Please try again later.";
-            }
-        }
-
-        // Close statement
-        $stmt->close();
-    }
-
-    // Close connection
-    $mysqli->close();
-}
-?>
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Create Record</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.css">
-    <style type="text/css">
-        .wrapper{
-            width: 500px;
-            margin: 0 auto;
-        }
-    </style>
-</head>
-<body>
-<div class="wrapper">
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="page-header">
-                    <h2>Create Record</h2>
+                    </div>
                 </div>
-                <p>Please fill this form and submit to add employee record to the database.</p>
-                <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
-                    <div class="form-group <?php echo (!empty($name_err)) ? 'has-error' : ''; ?>">
-                        <label>Name</label>
-                        <input type="text" name="name" class="form-control" value="<?php echo $name; ?>">
-                        <span class="help-block"><?php echo $name_err;?></span>
-                    </div>
-                    <div class="form-group <?php echo (!empty($address_err)) ? 'has-error' : ''; ?>">
-                        <label>Address</label>
-                        <textarea name="address" class="form-control"><?php echo $address; ?></textarea>
-                        <span class="help-block"><?php echo $address_err;?></span>
-                    </div>
-                    <div class="form-group <?php echo (!empty($salary_err)) ? 'has-error' : ''; ?>">
-                        <label>Salary</label>
-                        <input type="text" name="salary" class="form-control" value="<?php echo $salary; ?>">
-                        <span class="help-block"><?php echo $salary_err;?></span>
-                    </div>
-                    <input type="submit" class="btn btn-primary" value="Submit">
-                    <a href="index.php" class="btn btn-default">Cancel</a>
-                </form>
             </div>
-        </div>
+
+                <?php
+                $counter++;
+                echo ($counter % 3==0) ? '</div>':null;
+            } ?>
+
+
     </div>
+    <div class="pull-right viewall"><a href="addNew.php" class="btn btn-primary">Add More Properties</a>
+        <hr class="my-4">
 </div>
-</body>
-</html>
+</div>
+
+
+
+<?php include'footer.php';?>
+

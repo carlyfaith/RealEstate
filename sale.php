@@ -1,4 +1,4 @@
-<?php include'header.php';
+<?php include 'header.php';
 require_once 'conn.php';
 
 ?>
@@ -8,52 +8,50 @@ require_once 'conn.php';
         <h2>Properties</h2>
     </div>
 </div>
-
-
-
-
-
 <div class="container">
-    <div class="properties-listing spacer">
-        <h3 style="text-align: center">Featured Property and Land for sale</h3>
+
+    <div class="row">
+        <h3 style="text-align: center">Featured Property For Sale</h3>
         <?php
-        $sql = "SELECT * FROM property order by RAND() LIMIT 0,12";
+        $sql = "SELECT * FROM property where `category` ='Sale'";
         $result = mysqli_query($conn, $sql);
 
-        while($row=mysqli_fetch_array($result)) {
-
+        $counter =0;
+        foreach ($result as $row) {
+            $property_id = $row['property_id'];
             $property_image = $row['property_image'];
             $property_title = $row['property_title'];
             $property_desc = $row['property_desc'];
             $price = $row['price'];
 
+            echo ($counter % 3==0) ? '<div class="row">':null;
+            ?>
 
-
-
-
-
-        ?>
-
-                <div class="row">
-                    <div class="col-lg-4 col-sm-6">
-                        <div class="card">
-                            <img class="card-img-top" src="images/<?php echo $property_image;?>"  alt="Card image" style="width:100%">
-                            <div class="card-body">
-                                <h4 class="card-title"><?php echo $property_title;?></h4>
-                                <p class="card-text"><?php echo $property_desc;?>
-                                <p class="price"><?php echo $price;?></p>
-                               <a href="property-detail.php" class="btn btn-success">View Details...</a>
-                            </div>
-                        </div>
+            <div class="col-lg-4 col-sm-8 col-xm-12">
+                <div class="card">
+                    <img class="card-img-top" src="images/<?php echo $property_image; ?>" alt="Card image"
+                         style="width:100%">
+                    <div class="card-body">
+                        <h4 class="card-title"><?php echo $property_title; ?></h4>
+                        <p class="card-text"><?php echo $property_desc; ?>
+                        <p class="price"><?php echo $price; ?></p>
+                        <?php  echo "<a href='property-detail.php?property_id=$property_id' class='btn btn-success'>view detail</a>";?>
 
                     </div>
-                    <!-- properties -->
+                </div>
+            </div>
+
+            <?php
+            $counter++;
+            echo ($counter % 3==0) ? '</div>':null;
+        } ?>
 
 
-<!--                </div>-->
-        <?php } ?>
-           </div>
     </div>
+</div>
+</div>
 
 
-    <?php include'footer.php';?>
+<?php include 'footer.php'; ?>
+
+

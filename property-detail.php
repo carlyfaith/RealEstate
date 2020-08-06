@@ -1,71 +1,74 @@
 <?php include'header.php';?>
-<!-- banner -->
-<div class="inside-banner">
-  <div class="container"> 
-    <span class="pull-right"><a href="index.php">Home</a> /Property Details</span>
-    <h2>Property Details</h2>
-</div>
-</div>
-<!-- banner -->
+<?php require_once 'conn.php';?>
+    <!-- banner -->
+    <div class="inside-banner">
+        <div class="container">
+            <span class="pull-right"><a href="index.php">Home</a> /Property Details</span>
+            <h2>Property Details</h2>
+        </div>
+    </div>
+
+<?php
+
+if(isset($_GET['property_id'])){
+    $property_id =$_GET['property_id'];
+    $sql = "SELECT * FROM property WHERE `property_id` = '$property_id '";
+    $result = mysqli_query($conn, $sql);
+    while($row=mysqli_fetch_array($result)) {
+        $property_id = $row['property_id'];
+        $property_image = $row['property_image'];
+        $property_title = $row['property_title'];
+        $property_desc = $row['property_desc'];
+        $property_det = $row['property_detail'];
+        $price = $row['price'];
+        $category = $row['category'];
+
+        ?>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 col-sm-8 col-xm-12">
+                    <h3 style="text-align:center ;"><?php echo $property_title;?></h3>
+                    <img src="images/<?php echo $property_image;?>" class="img-responsive thumbnail" width="600px"  alt="realestate">
+                    <p class="card-text"><?php echo $property_det;?>
+                    <p class="card-text"><?php echo $price;?>
+                    <hr>
+                    <h3 style="text-align: center">More Images</h3>
+                </div>
+                <div class="col-lg-4 col-sm-8 col-xm-12">
+
+                </div>
+            </div>
+                    <?Php
+                    if(isset($_GET['property_id'])){
+                        $property_id =$_GET['property_id'];
+                        $query = "SELECT * FROM images  WHERE `property_id` = '".$row["property_id"]."'";
+                        $result1 = mysqli_query($conn, $query);
+                        $counter =0;
+                    }
+                    foreach ($result1 as $value) {
+                        echo ($counter % 3==0) ? '<div class="row">':null;
+                        ?>
+                        <div class="col-lg-4 col-sm-8 col-xm-12">
+                            <div class="card">
+                                <img src="images/<?php echo $value['image'];?>" class="img-responsive thumbnail" width="600px"  alt="realestate">
+                            </div>
+                        </div>
+
+                    <?php
+                        $counter++;
+                        echo ($counter % 3==0) ? '</div>':null;
+                    }?>
+
+            </div>
+            <a href="sale.php" class="btn btn-success" style="width: auto;float: right">Back</a>
+        </div>
+        </div>
+
+    <?php }?>
+<?php }?>
 
 
-<div class="container">
-<div class="properties-listing spacer">
-
-<div class="row">
-<div class="col-lg-3 col-sm-4 hidden-xs">
 
 
-
-</div>
-
-<div class="col-lg-9 col-sm-8 ">
-
-<h2>2 room and 1 kitchen apartment</h2>
-<div class="row">
-  <div class="col-lg-8">
-  <div class="property-images">
-    <!-- Slider Starts -->
-      <img src="images/about.jpg" class="img-responsive thumbnail"  alt="realestate">
-<!-- #Slider Ends -->
-
-  </div>
-  
-
-
-
-  <div class="spacer"><h4><span class="glyphicon glyphicon-th-list"></span> Properties Detail</h4>
-  <p>Efficiently unleash cross-media information without cross-media value. Quickly maximize timely deliverables for real-time schemas. Dramatically maintain clicks-and-mortar solutions without functional solutions.</p>
-  <p>Completely synergize resource sucking relationships via premier niche markets. Professionally cultivate one-to-one customer service with robust ideas. Dynamically innovate resource-leveling customer service for state of the art customer service</p>
-
-  </div>
-   </div>
-  <div class="col-lg-4">
-  <div class="col-lg-12  col-sm-6">
-<div class="property-info">
-<p class="price">$ 200,000,000</p>
-  <p class="area"><span class="glyphicon glyphicon-map-marker"></span> 344 Villa, Syndey, Australia</p>
-
-  <div class="profile" style="font-size: 16px">
-  <span class="glyphicon glyphicon-user"></span> Agent Details
-  <p >Kari Faith</p>
-  <p>Phone: 0716182516</p>
-  </div>
-</div>
-
-<!--    <h6><span class="glyphicon glyphicon-home"></span> Availabilty</h6>-->
-<!--    <div class="listing-detail">-->
-<!--    <span data-toggle="tooltip" data-placement="bottom" data-original-title="Bed Room">5</span> <span data-toggle="tooltip" data-placement="bottom" data-original-title="Living Room">2</span> <span data-toggle="tooltip" data-placement="bottom" data-original-title="Parking">2</span> <span data-toggle="tooltip" data-placement="bottom" data-original-title="Kitchen">1</span> </div>-->
-
-</div>
-<div class="col-lg-12 col-sm-6 ">
-
-</div>
-  </div>
-</div>
-</div>
-</div>
-</div>
-</div>
 
 <?php include'footer.php';?>

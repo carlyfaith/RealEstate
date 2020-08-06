@@ -1,35 +1,44 @@
-<?php include'header.php';?>
-<!-- banner -->
-<div class="inside-banner">
-  <div class="container"> 
-    <span class="pull-right"><a href="#">Home</a> / Register</span>
-    <h2>Register</h2>
-</div>
-</div>
-<!-- banner -->
+<?php include'header.php';
+require_once 'conn.php';
+
+?>
+<?php
+$query = "SELECT * FROM property";
+$tab_result = mysqli_query($conn, $query);
+
+$tab_content = '';
+$counter = 0;
+while($row = mysqli_fetch_array($tab_result))
+{
+
+
+        $tab_content .= '
+  <div class="col-lg-4 col-sm-8 col-xm-12" >
+  <div class="card">
+   <img class="card-img-top" src="images/'.$row["property_image"].'" class="img-responsive img-thumbnail" />
+   <h4 class="card-title">'.$row["property_title"].'</h4>
+   <p class="card-text">'.$row["property_desc"].'</>
+   <p class="price">'.$row["price"].'</p>
+   </div>
+  </div>
+  ';
+    }
+    $tab_content .= '<div style="clear:both"></div></div>';
+    $counter++;
+
+?>
+
 
 
 <div class="container">
-<div class="spacer">
-<div class="row register">
-  <div class="col-lg-6 col-lg-offset-3 col-sm-6 col-sm-offset-3 col-xs-12 ">
+    <h2 align="center">Create Dynamic Tab by using Bootstrap in PHP Mysql</a></h2>
+    <br />
 
-
-                <input type="text" class="form-control" placeholder="Full Name" name="form_name">
-                <input type="text" class="form-control" placeholder="Enter Email" name="form_email">
-                <input type="password" class="form-control" placeholder="Password" name="form_phone">
-                <input type="password" class="form-control" placeholder="Confirm Password" name="form_phone">
-
-                <textarea rows="6" class="form-control" placeholder="Address" name="form_message"></textarea>
-      <button type="submit" class="btn btn-success" name="Submit">Register</button>
-          
-
-
-                
-        </div>
-  
-</div>
-</div>
+    <div class="tab-content">
+        <br />
+        <?php
+        echo $tab_content;
+        ?>
+    </div>
 </div>
 
-<?php include'footer.php';?>

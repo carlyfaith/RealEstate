@@ -19,7 +19,7 @@
                     <h3 id="rent">Rent Collection</h3>
                     <a href="" ><img src="images/rent.jpg" alt="rent"></a>
                     <p></p>
-                    <p>We ensures that tenants pays rent fully and on agreed date for the convenience </p>
+                    <p>We ensures that tenants pays rent fully and on agreed date for the convenience of all parties </p>
 
                 </div>
             </div>
@@ -28,16 +28,16 @@
                     <h3>Area Market Analysis</h3>
                     <a href=""><img src="images/market.jpg" alt="area market"></a>
                     <p></p>
-                    <p>We do research on area market analysis to ensure the tenant pays rent based on the location</p>
+                    <p>We do research on area market analysis to ensure the tenant pays rent at market value based on the location</p>
 
                 </div>
             </div>
             <div class="col-lg-4 col-sm-4 ">
                 <div class="thumbnail">
                     <h3>Tenant Screening / Placement</h3>
-                    <a href=""><img src="images/tenant.jpg" alt="lease and agreement"></a>
-                    <p> We screen tenants via the tenancy leases form and the application form to ensure there is maximum security to avoid tenants
-                        who may compromise the security of other tenants.
+                    <a href=""><img src="images/tenant.jpg" alt="tenant screening and renewal"></a>
+                    <p> We screen tenants via the tenancy application forms to ensure there is
+                        maximum security and every tenant conforms with the local community policy procedure
                     </p>
 
                 </div>
@@ -50,9 +50,8 @@
             <div class="col-lg-4 col-sm-4 ">
                 <div class="thumbnail">
                     <h3>Lease Management / Renewals</h3>
-                    <a href="property.php"><img src="images/lease.jpg" alt="lease and agreement"></a>
-                    <p> We screen tenants via the tenancy leases form and the application form to ensure there is maximum security to avoid tenants
-                        who may compromise the security of other tenants.
+                    <a href=""><img src="images/leas.jpg" alt="lease and agreement" height="220" ></a>
+                    <p> We offer Lease management and renewals by advising landlords on timely rent increments based on lease expiries and market survey on Rent
                     </p>
 
                 </div>
@@ -61,8 +60,8 @@
                 <div class="thumbnail">
                     <h3>Property Management</h3>
                     <a href=""><img src="images/property2.jpg" alt="property management"> </a>
-                    <p>We offer property maintenance services to ensure that your property is well kept and maintained. We also aid in Garbage collection,
-                        water and electricity on need basis to both the landlords and the tenant.
+                    <p>We offer adivisory on property maintenance to ensure properties within our management are in good shape and attracts tenants.
+                        We also aid in Garbage collection, water and electricity on need basis to both the landlords and the tenant.
                     </p>
 
                 </div>
